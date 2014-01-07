@@ -28,20 +28,20 @@
 **    APPLICATION WINDOW LAYOUT
 **    =========================
 **
-**     Measurement System
-**                                              +----------+
-**     (*)   English                    Weight  |          |
-**     ( )   Metric                             +----------+
-**                                              +----------+
-**          +-------+              Cholesterol  |          |
-**     Age  |       |                           +----------+
-**          +-------+                           +----------+
-**          +-------+           Blood Pressure  |          |
-**  Height  |       |                           +----------+
-**          +-------+                           +----------+
-**          +-------+               Heart Rate  |          |
-**          |  GO   |                           +----------+
-**          +-------+
+**    Gender     Measurement System
+**                                                      +----------+
+**    (*) Male     (*) English                  Weight  |          |
+**    ( ) Female   ( ) Metric                           +----------+
+**                                                      +----------+
+**                  +-------+              Cholesterol  |          |
+**             Age  |       |                           +----------+
+**                  +-------+                           +----------+
+**                  +-------+           Blood Pressure  |          |
+**          Height  |       |                           +----------+
+**                  +-------+                           +----------+
+**                  +-------+               Heart Rate  |          |
+**                  |  GO   |                           +----------+
+**                  +-------+
 **
 ******************************************************************************/
 
@@ -52,6 +52,7 @@ PhyStat::PhyStat(QWidget *parent)
     : QDialog(parent)
 {
     setWindowTitle("Physical Statistics");
+    this->setWindowFlags(Qt::Window);
 
     // Apply the CSS sheet from the QpAppStyle class.
     //
@@ -69,9 +70,13 @@ PhyStat::PhyStat(QWidget *parent)
     mainLayout->addWidget(inputGroupBox);
     mainLayout->addWidget(outputGroupBox);
 
+    // Set the maximum size to the size given to us by the OS and fix the
+    // size so it can't be changed.
+    //
     QSize osSize = minimumSize();
     setMaximumSize(osSize);
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
     // Set this dialog's layout to mainLayout
     //
     setLayout(mainLayout);
