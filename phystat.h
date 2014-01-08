@@ -37,6 +37,10 @@ public:
     void createInputGroup();
     void createOutputGroup();
 
+private slots:
+    void onGo();
+    void onMeasure(int rbId);
+
 private:
     QGroupBox   *inputGroupBox;
     QGroupBox   *outputGroupBox;
