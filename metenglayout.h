@@ -31,19 +31,17 @@
 
 #include <QHBoxLayout>
 #include <QLineEdit>
+#include <QLabel>
 
 #define CMWID 100               // Width of Centimeter Box
 #define FTWID  50               // Width of Foot Box
-#define INWID (CMWID - FTWID)   // Width of Inch box
+#define INWID  50               // Width of Inch box
 
 class MetEngLayout : public QHBoxLayout
 {
     Q_OBJECT
 public:
     explicit MetEngLayout(bool state = true, QWidget *parent = 0);
-
-    QLineEdit *ftcm;
-    QLineEdit *inch;
 
     // Functions that return and set the state of the MetEngLayout
     //
@@ -57,6 +55,11 @@ signals:
 public slots:
 
 private:
+    QLineEdit *ftcmEdit;
+    QLineEdit *inchEdit;
+
+    QLabel *ftcmLabel;
+    QLabel *inchLabel;
     bool m_bMetric;
 };
 
