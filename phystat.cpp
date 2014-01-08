@@ -104,8 +104,8 @@ void PhyStat::createInputGroup()
 
     //Create the gender radio buttons//
     //
+    genderButtons = new QButtonGroup;
     QLabel *gender = new QLabel("Gender");
-    QButtonGroup *genderButtons = new QButtonGroup;
     QRadioButton *male   = new QRadioButton ("Male");
     QRadioButton *female = new QRadioButton ("Female");
 
@@ -128,8 +128,8 @@ void PhyStat::createInputGroup()
     // Create the "Measurement System" Label and Radio buttons and create a
     // QButtonGroup to contain the two radio buttons.
     //
+    measureButtonGroup = new QButtonGroup;
     QLabel *MeasSys = new QLabel("Measurement System");
-    QButtonGroup *measureButtonGroup = new QButtonGroup;
     QRadioButton *RbEnglish = new QRadioButton("English");
     QRadioButton *RbMetric  = new QRadioButton("Metric");
 
@@ -140,7 +140,7 @@ void PhyStat::createInputGroup()
     measureButtonGroup->addButton(RbEnglish, 0);
     measureButtonGroup->addButton(RbMetric,  1);
     measureButtonGroup->setExclusive(true);
-    RbMetric->setChecked(true);
+    RbEnglish->setChecked(true);
 
     // Add the buttons to the layout in the second column (c1)
     //                                     R   C
@@ -154,7 +154,7 @@ void PhyStat::createInputGroup()
     // clicked will be passed to the onMeasure SLOT.
     //
     connect(measureButtonGroup, SIGNAL(buttonClicked(int)),
-            this,               SLOT(onMeasure(int)));
+                          this, SLOT(onMeasure(int)));
 
     // Create the Age and Height labels
     //
@@ -168,10 +168,8 @@ void PhyStat::createInputGroup()
     ageEdit->setInputMask("DDD");
     ageEdit->setCursorPosition(0);
 
-    QLineEdit *htedit   = new QLineEdit("");
-    htedit->setFixedWidth(100);
-    htedit->setCursorPosition(0);
-    htedit->setInputMask("DDD");
+    htedit = new
+            MetEngLayout(measureButtonGroup->checkedId() == 1 ? true : false);
 
     // Create the "Go" button and connect it to the SLOT function onGo()
     //
@@ -190,7 +188,7 @@ void PhyStat::createInputGroup()
     inputGroupLayout->addWidget(ageLabel, 3,  0);
     inputGroupLayout->addWidget(ageEdit,  3,  1);
     inputGroupLayout->addWidget(htLabel,  4,  0);
-    inputGroupLayout->addWidget(htedit,   4,  1);
+    inputGroupLayout->addLayout(htedit,   4,  1);
     inputGroupLayout->addWidget(Go,       5,  1);
 
     // Set the layout of the inputGroupBox to the inputGroupLayout created
@@ -236,5 +234,6 @@ void PhyStat::onGo()
 
 void PhyStat::onMeasure(int rbId)
 {
-
+    measureButtonGroup->checkedId() == 0 ?
+                htedit->setEnglish() : htedit->setMetric();
 }

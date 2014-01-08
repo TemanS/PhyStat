@@ -13,10 +13,11 @@
 #include <QButtonGroup>
 #include <QObject>
 #include <Qt>
-#include "style.h"
 #include <QtGui>
 #include <QtWidgets>
 #include <QSize>
+#include "style.h"
+#include "metenglayout.h"
 
 enum {
     enum_weight,
@@ -46,7 +47,9 @@ private:
     QGroupBox   *outputGroupBox;
     QObjectList outBoxList;
     QObjectList outLabelList;
-
+    QButtonGroup *genderButtons;
+    QButtonGroup *measureButtonGroup;
+    MetEngLayout *htedit;
 };
 
 #endif // PHYSTAT_H
