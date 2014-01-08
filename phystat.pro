@@ -8,9 +8,11 @@ TEMPLATE = app
 HEADERS += \
     style.h \
     phystat.h \
-    main.h
+    main.h \
+    metenglayout.h
 
 SOURCES += \
     style.cpp \
     phystat.cpp \
-    main.cpp
+    main.cpp \
+    metenglayout.cpp
