@@ -33,6 +33,8 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QIntValidator>
+#include <QString>
+#include "wlineedit.h"
 
 #define CMWID 100               // Width of Centimeter Box
 #define FTWID  50               // Width of Foot Box
@@ -59,14 +61,15 @@ public:
     bool isEnglish() { return !m_bMetric; }
     void setMetric();
     void setEnglish();
+    QString *getText();
 
 signals:
 
 public slots:
 
 private:
-    QLineEdit *ftcmEdit;
-    QLineEdit *inchEdit;
+    WLineEdit *ftcmEdit;
+    WLineEdit *inchEdit;
 
     QLabel *ftcmLabel;
     QLabel *inchLabel;

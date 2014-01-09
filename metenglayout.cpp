@@ -27,6 +27,7 @@
 **
 ******************************************************************************/
 #include "metenglayout.h"
+// #include <QDebug>
 
 MetEngLayout::MetEngLayout(bool state, QWidget *parent) :
     QHBoxLayout(parent)
@@ -34,8 +35,8 @@ MetEngLayout::MetEngLayout(bool state, QWidget *parent) :
     // Create the Edit boxes for ft/cm and inches. We can set the width of
     // the inch edit box now, since that won't change.
     //
-    ftcmEdit = new QLineEdit("");
-    inchEdit = new QLineEdit("");
+    ftcmEdit = new WLineEdit;
+    inchEdit = new WLineEdit;
     inchEdit->setFixedWidth(INWID);
 
     // Connect these editboxes to their validators
@@ -49,13 +50,6 @@ MetEngLayout::MetEngLayout(bool state, QWidget *parent) :
     //
     ftcmLabel = new QLabel;
     inchLabel = new QLabel("in");
-
-    // Set the inchEdit box to its fixed width and to two decimal digits.
-    // These parameters won't change, so we can initialize them once for
-    // all here.
-    //
-    inchEdit->setFixedWidth(INWID);
-    inchEdit->setInputMask("DD");
 
     // Initialize the state of the metenglayout object. If the object was
     // instantiated without a state argument, the default is "true", which
@@ -98,6 +92,7 @@ void MetEngLayout::setMetric()
     // Set the validator range.
     //
     ftcmEdit->setFixedWidth(CMWID);
+    ftcmEdit->setText("5 - 300");
     ftcmValidator.setRange(MIN_CM, MAX_CM);
 }
 
@@ -113,12 +108,16 @@ void MetEngLayout::setEnglish()
     //
     ftcmLabel->setText("ft");
     ftcmEdit->setFixedWidth(FTWID);
+    ftcmEdit->setText("1 - 7");
     ftcmValidator.setRange(MIN_FT, MAX_FT);
+    // qDebug() << "QLineEdit default focus policy = " << ftcmEdit->focusPolicy();
+    // qDebug() << "Qt::StrongFocus = " << Qt::StrongFocus;
+
 
     // Set the cursor postition in the inchEdit box to 0, and make it
     // visible by calling the show() method.
     //
-    inchEdit->setCursorPosition(0);
+    inchEdit->setText("0 - 12");
     inchEdit->show();
     inchLabel->show();
 }
