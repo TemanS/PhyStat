@@ -9,10 +9,12 @@ HEADERS += \
     style.h \
     phystat.h \
     main.h \
-    metenglayout.h
+    metenglayout.h \
+    wlineedit.h
 
 SOURCES += \
     style.cpp \
     phystat.cpp \
     main.cpp \
-    metenglayout.cpp
+    metenglayout.cpp \
+    wlineedit.cpp
