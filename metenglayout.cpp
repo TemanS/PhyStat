@@ -38,6 +38,12 @@ MetEngLayout::MetEngLayout(bool state, QWidget *parent) :
     inchEdit = new QLineEdit("");
     inchEdit->setFixedWidth(INWID);
 
+    // Connect these editboxes to their validators
+    //
+    ftcmEdit->setValidator(&ftcmValidator);
+    inchEdit->setValidator(&inchValidator);
+    inchValidator.setRange(MIN_IN, MAX_IN);
+
     // Create the labels for ft/cm and inches. We can put the text into the
     // inches label now, since that won't change, either.
     //
@@ -89,12 +95,10 @@ void MetEngLayout::setMetric()
     ftcmLabel->setText("cm");
 
     // Set the width of the ftcmEdit box to its size for metric inputs.
-    // Set the input mask for three decimal digits.
-    // Set the cursor position to 0.
+    // Set the validator range.
     //
     ftcmEdit->setFixedWidth(CMWID);
-    ftcmEdit->setInputMask("DDD");
-    ftcmEdit->setCursorPosition(0);
+    ftcmValidator.setRange(MIN_CM, MAX_CM);
 }
 
 void MetEngLayout::setEnglish()
@@ -105,12 +109,11 @@ void MetEngLayout::setEnglish()
 
     // Set the text in ftcmLabel to "ft", because we will be expecting
     // input in feet. Set the width to the size for input in feet, and
-    // set the input mask for one decimal digit.
+    // set the validator range.
     //
     ftcmLabel->setText("ft");
     ftcmEdit->setFixedWidth(FTWID);
-    ftcmEdit->setInputMask("D");
-    ftcmEdit->setCursorPosition(0);
+    ftcmValidator.setRange(MIN_FT, MAX_FT);
 
     // Set the cursor postition in the inchEdit box to 0, and make it
     // visible by calling the show() method.

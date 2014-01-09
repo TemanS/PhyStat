@@ -32,10 +32,20 @@
 #include <QHBoxLayout>
 #include <QLineEdit>
 #include <QLabel>
+#include <QIntValidator>
 
 #define CMWID 100               // Width of Centimeter Box
 #define FTWID  50               // Width of Foot Box
 #define INWID  50               // Width of Inch box
+
+#define MIN_CM  5
+#define MAX_CM  300
+
+#define MIN_FT  1
+#define MAX_FT  7
+
+#define MIN_IN  0
+#define MAX_IN  12
 
 class MetEngLayout : public QHBoxLayout
 {
@@ -60,6 +70,10 @@ private:
 
     QLabel *ftcmLabel;
     QLabel *inchLabel;
+
+    QIntValidator ftcmValidator;
+    QIntValidator inchValidator;
+
     bool m_bMetric;
 };
 
