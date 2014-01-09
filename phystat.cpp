@@ -28,12 +28,12 @@
 **    APPLICATION WINDOW LAYOUT
 **    =========================
 **
-**    Gender     Measurement System
+**    Gender     Measurement System    Optimal Measurements
 **                                                      +----------+
 **    (*) Male     (*) English                  Weight  |          |
 **    ( ) Female   ( ) Metric                           +----------+
 **                                                      +----------+
-**                  +-------+              Cholesterol  |          |
+**                  +-------+          Body Mass Index  |          |
 **             Age  |       |                           +----------+
 **                  +-------+                           +----------+
 **                  +-------+           Blood Pressure  |          |
@@ -41,7 +41,15 @@
 **                  +-------+                           +----------+
 **                  +-------+               Heart Rate  |          |
 **                  |  GO   |                           +----------+
-**                  +-------+
+**                  +-------+                           +----------+
+**                                   Total Cholesterol  |          |
+**                                                      +----------+
+**                                                      +----------+
+**                               LDL (bad) Cholesterol  |          |
+**                                                      +----------+
+**                                                      +----------+
+**                              HDL (good) Cholesterol  |          |
+**                                                      +----------+
 **
 ******************************************************************************/
 
@@ -93,29 +101,29 @@ void PhyStat::createInputGroup()
     // Create a box to contain the Input Parameters with a minimum width.
     // and set the alignment of the Box contents to Left.
     //
-    int GroupBoxWidth = 250;
     inputGroupBox = new QGroupBox;
-    inputGroupBox->setMinimumWidth(GroupBoxWidth);
+    inputGroupBox->setMinimumWidth(INBOX_WID);
     inputGroupBox->setAlignment(Qt::AlignLeft);
 
     // Create a grid layout to be placed within the inputGroupBox
     //
     QGridLayout *inputGroupLayout = new QGridLayout;
+    inputGroupLayout->setAlignment(Qt::AlignTop);
 
     //Create the gender radio buttons//
     //
-    genderButtons = new QButtonGroup;
+    genderButtonGroup = new QButtonGroup;
     QLabel *gender = new QLabel("Gender");
     QRadioButton *male   = new QRadioButton ("Male");
     QRadioButton *female = new QRadioButton ("Female");
 
-    // Add the radio buttons to the genderButtons, initialize their ID's,
+    // Add the radio buttons to the genderButtonGroup, initialize their ID's,
     // and set their attributes to exclusive, set the "Male" radio button
     // as the default by setting it "true" when the app is invoked.
     //
-    genderButtons->addButton(male,   0);
-    genderButtons->addButton(female, 1);
-    genderButtons->setExclusive(true);
+    genderButtonGroup->addButton(male,   sx_male);
+    genderButtonGroup->addButton(female, sx_female);
+    genderButtonGroup->setExclusive(true);
     male->setChecked(true);
 
     //Add the buttons to the layout in the first colum (c0)
@@ -137,8 +145,8 @@ void PhyStat::createInputGroup()
     // and set their attributes to exclusive, set the "English" radio button
     // as the default by setting it "true" when the app is invoked.
     //
-    measureButtonGroup->addButton(RbEnglish, 0);
-    measureButtonGroup->addButton(RbMetric,  1);
+    measureButtonGroup->addButton(RbEnglish, ms_english);
+    measureButtonGroup->addButton(RbMetric,  ms_metric);
     measureButtonGroup->setExclusive(true);
     RbEnglish->setChecked(true);
 
@@ -161,25 +169,29 @@ void PhyStat::createInputGroup()
     QLabel    *ageLabel = new QLabel("      Age");
     QLabel    *htLabel  = new QLabel("      Height");
 
-    // Create the Age and Height edit boxes
+    // Create the Age edit box and fix its width.
     //
-    QLineEdit *ageEdit  = new QLineEdit("");
-    ageEdit->setFixedWidth(100);
-    ageEdit->setInputMask("DDD");
-    ageEdit->setCursorPosition(0);
+    QLineEdit *ageEdit = new QLineEdit;
+    ageEdit->setFixedWidth(BOX_WID);
 
-    htedit = new
-            MetEngLayout(measureButtonGroup->checkedId() == 1 ? true : false);
+    // Create and initialize a validator for the age entries.
+    // Set the valid ages to between 1 and 110 years.
+    //
+    ageEdit->setValidator(&ageValidator);
+    ageValidator.setRange(MIN_AGE, MAX_AGE);
+
+    // Create a Metric/English layout. This is a layout that can present
+    // one box for input in cm, and two boxes for input in ft and inches.
+    // Initialize it with the id of the currently checked Measurement
+    // System selection radio button.
+    //
+    htedit = new MetEngLayout(measureButtonGroup->checkedId() == ms_metric ?
+                              true : false);
 
     // Create the "Go" button and connect it to the SLOT function onGo()
     //
-    QPushButton *Go    = new QPushButton("Go");
-    Go->setMaximumWidth(100);
-
-    // playing with slots and signals//
-    // QObject::connect(Go, SIGNAL(pressed()), htedit, SLOT(clear()));
-    // QObject::connect(Go, SIGNAL(pressed()), ageEdit, SLOT(clear()));
-
+    QPushButton *Go = new QPushButton("Go");
+    Go->setMaximumWidth(BOX_WID);
     connect(Go, SIGNAL(clicked()), this, SLOT(onGo()));
 
     // Add the labels and edit boxes to the layout.
@@ -199,29 +211,46 @@ void PhyStat::createInputGroup()
 
 void PhyStat::createOutputGroup()
 {
-    int GroupBoxWidth = 200;
+    // Create a GroupBox as a container for our layout and set its
+    // maximum width.
+    //
     outputGroupBox = new QGroupBox;
-    outputGroupBox->setMinimumWidth(GroupBoxWidth);
-    outputGroupBox->setAlignment(Qt::AlignLeft);
+    outputGroupBox->setMinimumWidth(OUTBOX_WID);
 
-    // Create a grid layout within the outputGroupBox
+    // Create a grid layout in which to add the widgets we will create
+    // for the output.
     //
     QGridLayout *outputGroupLayout = new QGridLayout;
+    outputGroupLayout->setAlignment(Qt::AlignTop);
 
+    // Create a label for the output box and allow it to span two columns.
+    // Row 0, Col 0, Row Span = 1, Col Span = 2, alignment = left
+    //
+    QLabel *outputGroupLabel = new QLabel("Maximum Cardio and Metabolic Values");
+    outputGroupLayout->addWidget(outputGroupLabel, 0, 0, 1, 2, Qt::AlignLeft);
+
+    //Create a string list to contain the labels for the output boxes.
+    //
     QStringList labelStrings;
     labelStrings
-           << "Weight" << "Cholesterol" << "Blood Pressure"
-           << "Heart Rate";
+           << "Weight"
+           << "Body Mass Index"
+           << "Blood Pressure"
+           << "Heart Rate"
+           << "Total Cholesterol"
+           << "LDL (bad) Cholesterol"
+           << "HDL (good) Cholesterol";
 
-    for(int index = 0; index < enum_max_stat; index++) {
+    // Create and initialize the ouput QLabels and QLineEdit boxes in a loop
+    //
+    for(int index = 0; index < labelStrings.size(); index++) {
         QLabel *label = new QLabel;
         outLabelList.append(label);
         label->setText(labelStrings[index]);
-        outputGroupLayout->addWidget(label, index, 0);
+        outputGroupLayout->addWidget(outLabelList[index], index+1, 0);
 
-        QLineEdit *outBox = new QLineEdit;
-        outBoxList.append(outBox);
-        outputGroupLayout->addWidget(outBox, index, 1);
+        outBoxList.append(new QLineEdit);
+        outputGroupLayout->addWidget(outBoxList[index], index+1, 1);
     }
 
     outputGroupBox->setLayout(outputGroupLayout);
