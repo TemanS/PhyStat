@@ -263,6 +263,5 @@ void PhyStat::onGo()
 
 void PhyStat::onMeasure(int rbId)
 {
-    measureButtonGroup->checkedId() == 0 ?
-                htedit->setEnglish() : htedit->setMetric();
+    rbId == 0 ? htedit->setEnglish() : htedit->setMetric();
 }
