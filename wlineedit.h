@@ -8,6 +8,8 @@ class WLineEdit : public QLineEdit
     Q_OBJECT
 public:
     WLineEdit();
+    QString getOutputStyle();
+    QString getInputStyle();
 
 signals:
 
@@ -17,6 +19,7 @@ protected:
 
     void focusInEvent(QFocusEvent* event);
 
+private:
 };
 
 #endif // WLINEEDIT_H
