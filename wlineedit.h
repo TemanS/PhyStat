@@ -8,8 +8,10 @@ class WLineEdit : public QLineEdit
     Q_OBJECT
 public:
     WLineEdit();
-    QString getOutputStyle();
-    QString getInputStyle();
+    const QString& getOutputStyle();
+    const QString& getInputStyle();
+    void setToOutputStyle();
+    void setToInputStyle();
 
 signals:
 
@@ -20,6 +22,9 @@ protected:
     void focusInEvent(QFocusEvent* event);
 
 private:
+    QString outputStyle;
+    QString inputStyle;
+
 };
 
 #endif // WLINEEDIT_H
