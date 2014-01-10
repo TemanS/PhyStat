@@ -31,6 +31,7 @@ enum {
     ob_total_cholesterol,
     ob_ldl_cholesterol,
     ob_hdl_cholesterol,
+    ob_triglycerides,
     ob_max
 };
 

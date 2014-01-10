@@ -50,6 +50,9 @@
 **                                                      +----------+
 **                              HDL (good) Cholesterol  |          |
 **                                                      +----------+
+**                                                      +----------+
+**                                       Triglycerides  |          |
+**                                                      +----------+
 **
 ******************************************************************************/
 
@@ -239,7 +242,8 @@ void PhyStat::createOutputGroup()
            << "Heart Rate"
            << "Total Cholesterol"
            << "LDL (bad) Cholesterol"
-           << "HDL (good) Cholesterol";
+           << "HDL (good) Cholesterol"
+           << "Triglycerides";
 
     // Create and initialize the ouput QLabels and QLineEdit boxes in a loop
     //
