@@ -92,8 +92,9 @@ void MetEngLayout::setMetric()
     // Set the validator range.
     //
     ftcmEdit->setFixedWidth(CMWID);
-    ftcmEdit->setStyleSheet(ftcmEdit->getOutputStyle());
-    ftcmEdit->setText("5 - 300");
+    ftcmEdit->setAlignment(Qt::AlignRight);
+    ftcmEdit->setToOutputStyle();
+    ftcmEdit->setText("30 - 215");
     ftcmValidator.setRange(MIN_CM, MAX_CM);
 }
 
@@ -109,17 +110,18 @@ void MetEngLayout::setEnglish()
     //
     ftcmLabel->setText("ft");
     ftcmEdit->setFixedWidth(FTWID);
-    ftcmEdit->setStyleSheet(ftcmEdit->getOutputStyle());
+    ftcmEdit->setAlignment(Qt::AlignRight);
+    ftcmEdit->setToOutputStyle();
     ftcmEdit->setText("1 - 7");
     ftcmValidator.setRange(MIN_FT, MAX_FT);
     // qDebug() << "QLineEdit default focus policy = " << ftcmEdit->focusPolicy();
     // qDebug() << "Qt::StrongFocus = " << Qt::StrongFocus;
 
-
     // Set the cursor postition in the inchEdit box to 0, and make it
     // visible by calling the show() method.
     //
-    inchEdit->setStyleSheet(ftcmEdit->getOutputStyle());
+    inchEdit->setAlignment(Qt::AlignRight);
+    inchEdit->setToOutputStyle();
     inchEdit->setText("0 - 12");
     inchEdit->show();
     inchLabel->show();

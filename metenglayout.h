@@ -33,15 +33,14 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QIntValidator>
-#include <QString>
 #include "wlineedit.h"
 
 #define CMWID 100               // Width of Centimeter Box
 #define FTWID  50               // Width of Foot Box
 #define INWID  50               // Width of Inch box
 
-#define MIN_CM  5
-#define MAX_CM  300
+#define MIN_CM  30
+#define MAX_CM  215
 
 #define MIN_FT  1
 #define MAX_FT  7
