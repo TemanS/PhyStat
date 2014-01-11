@@ -1,0 +1,21 @@
+PhyStat
+=======
+
+PhyStat is an application that returns maximum or optimal cardio and
+metabolic values for a given age, gender, and height. The user can
+enter the data in metric or English measure, and the results will be
+displayed accordingly, where appropriate.
+
+Build
+=====
+
+This progject must be built using Qt 5.1.1 or greater. You can acquire
+the Qt SDK from this link.
+http://qt-project.org/downloads
+
+Current Status
+==============
+The application is currently under development, so it is not fully 
+functional. However, the interface is up and running, and we would
+appreciate comments and contributions for improving it.
+
