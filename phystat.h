@@ -78,8 +78,8 @@ private slots:
 private:
     QGroupBox  *inputGroupBox;
     QGroupBox  *outputGroupBox;
-    QWidgetList outBoxList;
-    QWidgetList outLabelList;
+    QWidgetList<QLineEdit*> outBoxList;
+    QWidgetList<QLabel*>  outLabelList;
     QButtonGroup *genderButtonGroup;
     QButtonGroup *measureButtonGroup;
     MetEngLayout *htedit;
