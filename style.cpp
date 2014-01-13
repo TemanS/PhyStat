@@ -48,7 +48,7 @@ static QString appStyle =
     "QLineEdit {"
         "color: aqua; "
         "background-color: black; "
-        "font-size:16px; "
+        "font-size:12px; "
         "border-style:inset;border-width:2px;"
         "border-radius4px;border-color:gray; }"
 
